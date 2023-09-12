@@ -6,7 +6,7 @@ float a,b,c;
 
 void main() // Funcion principal
 {
-    a=(3+5)*8-(10-4)/2;
+    a=(3+5)*8-(10-4)/2; //
     b=8;
     printf("Valor de c = ",c);
     scanf("%f",&c);
@@ -20,7 +20,7 @@ void main() // Funcion principal
     {
         printf("\nc es impar\t\tITQ");
     }
-    b++;
+    b++; 
     c--;
     c+=(10-b);
     b-=9;

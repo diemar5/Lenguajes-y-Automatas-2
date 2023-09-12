@@ -12,6 +12,7 @@ using System.Threading.Tasks;
                      uso de la variable
                      Icremento(), Printf(), Factor() y usar getValor y Modificar
                      Levantar una excepcion en scanf() cuando se capture un string
+    Requerimiento 4: Implemenar la ejecución del ELSE
 */
 
 namespace Sintaxis_2
@@ -204,6 +205,7 @@ namespace Sintaxis_2
         //Asignacion -> identificador = Expresion;
         private void Asignacion(bool ejecuta)
         {
+            float Sandevistan = 0;
             if (!Existe(getContenido()))
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
@@ -221,52 +223,62 @@ namespace Sintaxis_2
                 if (getContenido() == "++")
                 {
                     match("++");
-                    float mas = GetValor(variable) + 1;
-                    Console.WriteLine(mas);
+                    Sandevistan = GetValor(variable) + 1;
                 }
-                else
+                else if (getContenido() == "--")
                 {
                     match("--");
-                    float men = GetValor(variable) - 1;
-                    Console.WriteLine(men);
+                    Sandevistan = GetValor(variable) - 1;
                 }
-            }
-            else if (getClasificacion() == Tipos.Incremento_Factor)
-            {
-
-                if (getContenido() == "+=")
+                else if (getContenido() == "+=")
                 {
                     match("+=");
                     Expresion();
-                    float masigu = GetValor(variable);
-                    
-                    
+                    Sandevistan = stack.Pop();
+                    Sandevistan = GetValor(variable) + Sandevistan;
+
                 }
                 else if (getContenido() == "-=")
                 {
                     match("-=");
+                    Expresion();
+                    Sandevistan = stack.Pop();
+                    Sandevistan -= GetValor(variable);
                 }
-                else if (getContenido() == "*=")
+            }
+            else if (getClasificacion() == Tipos.Incremento_Factor)
+            {
+                if (getContenido() == "*=")
                 {
                     match("*=");
+                    Expresion();
+                    Sandevistan = stack.Pop();
+                    Sandevistan = GetValor(variable) * Sandevistan;
                 }
                 else if (getContenido() == "/=")
                 {
                     match("/=");
+                    Expresion();
+                    Sandevistan = stack.Pop();
+                    Sandevistan = GetValor(variable) / Sandevistan;
                 }
                 else if (getContenido() == "%=")
                 {
                     match("%=");
+                    Expresion();
+                    Sandevistan = stack.Pop();
+                    Sandevistan = GetValor(variable) % Sandevistan;
                 }
                 Expresion();
             }
-            float resultado = stack.Pop();
-            log.WriteLine(" = " + resultado);
+            Sandevistan = stack.Pop();
+            log.WriteLine(" = " + Sandevistan);
             if (ejecuta)
             {
-                Modifica(variable, resultado);
+                stack.Push(Sandevistan);
+                Modifica(variable, Sandevistan);
             }
-            Modifica(variable, resultado);
+            Modifica(variable, Sandevistan);
             match(";");
         }
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
@@ -330,6 +342,7 @@ namespace Sintaxis_2
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
             }
+            stack.Push(GetValor(getContenido()));
             match(Tipos.Identificador);
             if (getContenido() == "++")
             {
@@ -388,17 +401,16 @@ namespace Sintaxis_2
                     Instruccion(ejecuta);
                 }
             }
-
         }
         //Printf -> printf(cadena(,Identificador)?);
         private void Printf(bool ejecuta)
         {
             match("printf");
             match("(");
-            string Cad = getContenido();
-            string Sub = Cad.Replace("\"", "");
-            string Fin = Sub.Replace("\\n", "\n");
-            Console.Write(Fin.Replace("\\t", "\t"));
+            string Rebeca = getContenido();
+            string Lucy = Rebeca.Replace("\"", "");
+            string David = Lucy.Replace("\\n", "\n");
+            Console.Write(David.Replace("\\t", "\t"));
             match(Tipos.Cadena);
             if (getContenido() == ",")
             {
@@ -406,6 +418,10 @@ namespace Sintaxis_2
                 if (!Existe(getContenido()))
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
+                }
+                if(ejecuta)
+                {
+                    Console.WriteLine(GetValor(getContenido()));
                 }
                 match(Tipos.Identificador);
             }
@@ -463,7 +479,7 @@ namespace Sintaxis_2
                 float R1 = stack.Pop();
                 if (operador == "+")
                     stack.Push(R1 + R2);
-                else
+                if(operador == "-")
                     stack.Push(R1 - R2);
             }
         }
@@ -487,12 +503,10 @@ namespace Sintaxis_2
                 //AGREGAR EL % 
                 if (operador == "*")
                     stack.Push(R1 * R2);
-                else
+                if(operador == "/")
                     stack.Push(R1 / R2);
-                if (operador == "%")
-                {
+                if(operador == "%")
                     stack.Push(R1 % R2);
-                }
             }
         }
         //Factor -> numero | identificador | (Expresion)

@@ -1,5 +1,5 @@
 Diego Galván Martínez
-10/09/2023 08:15:42 p. m.
+11/09/2023 09:37:10 a. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -109,7 +109,42 @@ printf | Identificador
 b | Identificador
 b = ++ | Incremento_Termino
 ; | Fin_de_Sentencia
- = 1
+ = 8
 c | Identificador
 c = -- | Incremento_Termino
 ; | Fin_de_Sentencia
+ = 8
+c | Identificador
+c = += | Incremento_Termino
+( | Caracter
+10 | Numero
+ 10- | Operador_Termino
+b | Identificador
+) | Caracter
+ -; | Fin_de_Sentencia
+ = 8
+b | Identificador
+b = -= | Incremento_Termino
+9 | Numero
+ 9; | Fin_de_Sentencia
+ = 8
+printf | Identificador
+( | Caracter
+"El valor de a = " | Cadena
+, | Caracter
+a | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"El valor de b = " | Cadena
+, | Caracter
+b | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"El valor de d = " | Cadena
+, | Caracter
+d | Identificador
+Error: de sintaxis, la variable <d> no está declarada en la linea 29 columna 31
