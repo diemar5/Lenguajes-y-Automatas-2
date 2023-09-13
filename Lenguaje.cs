@@ -242,8 +242,9 @@ namespace Sintaxis_2
                 {
                     match("-=");
                     Expresion();
-                    Sandevistan = stack.Pop();
-                    Sandevistan -= GetValor(variable);
+                    float CyberEsqueleto = stack.Pop();
+                    Sandevistan = GetValor(variable);
+                    Sandevistan -= CyberEsqueleto;
                 }
             }
             else if (getClasificacion() == Tipos.Incremento_Factor)
@@ -253,7 +254,7 @@ namespace Sintaxis_2
                     match("*=");
                     Expresion();
                     Sandevistan = stack.Pop();
-                    Sandevistan = Sandevistan * GetValor(variable);
+                    Sandevistan *= GetValor(variable);
                     //Console.WriteLine(Sandevistan);
                 }
                 else if (getContenido() == "/=")
@@ -380,7 +381,7 @@ namespace Sintaxis_2
             match("if");
             match("(");
             bool evaluacion = Condicion() && ejecuta;
-            Console.WriteLine(evaluacion);
+            //Console.WriteLine(evaluacion);
             match(")");
             if (getContenido() == "{")
             {
@@ -393,14 +394,16 @@ namespace Sintaxis_2
             if (getContenido() == "else")
             {
                 match("else");
-
-                if (getContenido() == "{")
+                if (ejecuta)
                 {
-                    BloqueInstrucciones(ejecuta);
-                }
-                else
-                {
-                    Instruccion(ejecuta);
+                    if (getContenido() == "{")
+                    {
+                        BloqueInstrucciones(ejecuta);
+                    }
+                    else
+                    {
+                        Instruccion(ejecuta);
+                    }
                 }
             }
         }
@@ -490,7 +493,7 @@ namespace Sintaxis_2
                 float R1 = stack.Pop();
                 if (operador == "+")
                     stack.Push(R1 + R2);
-                else
+                else if (operador == "-")
                     stack.Push(R1 - R2);
             }
         }

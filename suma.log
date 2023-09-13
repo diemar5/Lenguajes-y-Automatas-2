@@ -1,5 +1,5 @@
 Diego Galván Martínez
-13/09/2023 09:22:44 a. m.
+13/09/2023 01:41:24 p. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -25,6 +25,8 @@ a | Identificador
 b | Identificador
 , | Caracter
 c | Identificador
+, | Caracter
+d | Identificador
 ; | Fin_de_Sentencia
 void | Identificador
 main | Identificador
@@ -52,9 +54,9 @@ a = = | Asignacion
  / - = 61
 b | Identificador
 b = = | Asignacion
-8 | Numero
- 8; | Fin_de_Sentencia
- = 8
+19 | Numero
+ 19; | Fin_de_Sentencia
+ = 19
 printf | Identificador
 ( | Caracter
 "Valor de c = " | Cadena
@@ -90,59 +92,110 @@ c | Identificador
  10) | Caracter
 printf | Identificador
 ( | Caracter
-"El valor de c = " | Cadena
+"Se ejecutÃ³ el segundo If " | Cadena
 , | Caracter
 c | Identificador
 ) | Caracter
 ; | Fin_de_Sentencia
+else | Condicion
+printf | Identificador
+( | Caracter
+"else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+a | Identificador
+a = = | Asignacion
+70 | Numero
+ 70; | Fin_de_Sentencia
+ = 70
 } | Fin
 else | Condicion
 { | Inicio
 printf | Identificador
 ( | Caracter
-"\nc es impar\t\tITQ\n" | Cadena
+"\nc es impar\tITQ\n" | Cadena
 ) | Caracter
 ; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | Operador_Relacional
+11 | Numero
+ 11) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecutÃ³ el segundo if del Else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+else | Condicion
+{ | Inicio
+a | Identificador
+a = = | Asignacion
+0 | Numero
+ 0; | Fin_de_Sentencia
+ = 0
+} | Fin
 } | Fin
 b | Identificador
 b = ++ | Incremento_Termino
 ; | Fin_de_Sentencia
- = 9
+ = 20
 c | Identificador
 c = -- | Incremento_Termino
 ; | Fin_de_Sentencia
  = 4
+d | Identificador
+d = = | Asignacion
+3 | Numero
+ 3; | Fin_de_Sentencia
+ = 3
 c | Identificador
 c = += | Incremento_Termino
 ( | Caracter
-10 | Numero
- 10- | Operador_Termino
+15 | Numero
+ 15- | Operador_Termino
 b | Identificador
 ) | Caracter
  -; | Fin_de_Sentencia
- = 5
+ = -1
 b | Identificador
 b = -= | Incremento_Termino
 9 | Numero
  9; | Fin_de_Sentencia
- = 0
+ = 11
 printf | Identificador
 ( | Caracter
-"El valor de a = " | Cadena
+"\nEl valor de a = " | Cadena
 , | Caracter
 a | Identificador
 ) | Caracter
 ; | Fin_de_Sentencia
 printf | Identificador
 ( | Caracter
-"El valor de b = " | Cadena
+"\nEl valor de b = " | Cadena
 , | Caracter
 b | Identificador
 ) | Caracter
 ; | Fin_de_Sentencia
 printf | Identificador
 ( | Caracter
-"El valor de d = " | Cadena
+"\nEl valor de d = " | Cadena
 , | Caracter
 d | Identificador
-Error: de sintaxis, la variable <d> no está declarada en la linea 29 columna 31
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"\nEl valor de c = " | Cadena
+, | Caracter
+c | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+-----------------
+V a r i a b l e s
+-----------------
+a Float = 0
+b Float = 11
+c Float = -1
+d Float = 3
+-----------------
