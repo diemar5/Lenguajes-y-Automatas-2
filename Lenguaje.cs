@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 /*
     Requerimiento 1: Mensajes del printf deben salir sin comillas
                      Incluir \n y \t como secuencias de escape ☻
-    Requerimiento 2: Agregar el % al PorFactor
-                     Modifcar el valor de una variable con ++,--,+=,-=,*=,/=.%=
+    Requerimiento 2: Agregar el % al PorFactor ☻
+                     Modifcar el valor de una variable con ++,--,+=,-=,*=,/=.%= ☻
     Requerimiento 3: Cada vez que se haga un match(Tipos.Identificador) verficar el
-                     uso de la variable
-                     Icremento(), Printf(), Factor() y usar getValor y Modificar
-                     Levantar una excepcion en scanf() cuando se capture un string
+                     uso de la variable ☻
+                     Icremento(), Printf(), Factor() y usar getValor y Modificar ☻
+                     Levantar una excepcion en scanf() cuando se capture un string ☻
     Requerimiento 4: Implemenar la ejecución del ELSE
 */
 
@@ -447,7 +447,16 @@ namespace Sintaxis_2
             if (ejecuta)
             {
                 string captura = "" + Console.ReadLine();
-                float resultado = float.Parse(captura);
+                bool CyberEsqueleto = float.TryParse(captura, out float resultado);
+                if (CyberEsqueleto == true)
+                {
+                    stack.Push(float.Parse(captura));
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de sintaxis, scanf no puede recibir datos de tipo string", log, linea, columna);
+                }
                 Modifica(variable, resultado);
             }
             match(")");
