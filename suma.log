@@ -1,5 +1,5 @@
 Diego Galván Martínez
-11/09/2023 09:37:10 a. m.
+12/09/2023 10:20:25 p. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -58,8 +58,6 @@ b = = | Asignacion
 printf | Identificador
 ( | Caracter
 "Valor de c = " | Cadena
-, | Caracter
-c | Identificador
 ) | Caracter
 ; | Fin_de_Sentencia
 scanf | Identificador
@@ -102,18 +100,18 @@ else | Condicion
 { | Inicio
 printf | Identificador
 ( | Caracter
-"\nc es impar\t\tITQ" | Cadena
+"\nc es impar\t\tITQ\n" | Cadena
 ) | Caracter
 ; | Fin_de_Sentencia
 } | Fin
 b | Identificador
 b = ++ | Incremento_Termino
 ; | Fin_de_Sentencia
- = 8
+ = 9
 c | Identificador
 c = -- | Incremento_Termino
 ; | Fin_de_Sentencia
- = 8
+ = 4
 c | Identificador
 c = += | Incremento_Termino
 ( | Caracter
@@ -122,12 +120,12 @@ c = += | Incremento_Termino
 b | Identificador
 ) | Caracter
  -; | Fin_de_Sentencia
- = 8
+ = 5
 b | Identificador
 b = -= | Incremento_Termino
 9 | Numero
  9; | Fin_de_Sentencia
- = 8
+ = 0
 printf | Identificador
 ( | Caracter
 "El valor de a = " | Cadena

@@ -217,6 +217,7 @@ namespace Sintaxis_2
             {
                 match("=");
                 Expresion();
+                Sandevistan = stack.Pop();
             }
             else if (getClasificacion() == Tipos.Incremento_Termino)
             {
@@ -235,8 +236,7 @@ namespace Sintaxis_2
                     match("+=");
                     Expresion();
                     Sandevistan = stack.Pop();
-                    Sandevistan = GetValor(variable) + Sandevistan;
-
+                    Sandevistan += GetValor(variable);
                 }
                 else if (getContenido() == "-=")
                 {
@@ -253,7 +253,8 @@ namespace Sintaxis_2
                     match("*=");
                     Expresion();
                     Sandevistan = stack.Pop();
-                    Sandevistan = GetValor(variable) * Sandevistan;
+                    Sandevistan = Sandevistan * GetValor(variable);
+                    //Console.WriteLine(Sandevistan);
                 }
                 else if (getContenido() == "/=")
                 {
@@ -261,6 +262,7 @@ namespace Sintaxis_2
                     Expresion();
                     Sandevistan = stack.Pop();
                     Sandevistan = GetValor(variable) / Sandevistan;
+                    //Console.WriteLine(Sandevistan);
                 }
                 else if (getContenido() == "%=")
                 {
@@ -268,10 +270,10 @@ namespace Sintaxis_2
                     Expresion();
                     Sandevistan = stack.Pop();
                     Sandevistan = GetValor(variable) % Sandevistan;
+                    //Console.WriteLine(Sandevistan);
                 }
                 Expresion();
             }
-            Sandevistan = stack.Pop();
             log.WriteLine(" = " + Sandevistan);
             if (ejecuta)
             {
@@ -419,7 +421,7 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
-                if(ejecuta)
+                if (ejecuta)
                 {
                     Console.WriteLine(GetValor(getContenido()));
                 }
@@ -479,7 +481,7 @@ namespace Sintaxis_2
                 float R1 = stack.Pop();
                 if (operador == "+")
                     stack.Push(R1 + R2);
-                if(operador == "-")
+                else
                     stack.Push(R1 - R2);
             }
         }
@@ -500,12 +502,11 @@ namespace Sintaxis_2
                 log.Write(" " + operador);
                 float R2 = stack.Pop();
                 float R1 = stack.Pop();
-                //AGREGAR EL % 
                 if (operador == "*")
                     stack.Push(R1 * R2);
-                if(operador == "/")
+                if (operador == "/")
                     stack.Push(R1 / R2);
-                if(operador == "%")
+                if (operador == "%")
                     stack.Push(R1 % R2);
             }
         }
