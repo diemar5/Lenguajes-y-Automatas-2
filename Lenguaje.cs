@@ -381,7 +381,6 @@ namespace Sintaxis_2
             match("if");
             match("(");
             bool evaluacion = Condicion() && ejecuta;
-            //Console.WriteLine(evaluacion);
             match(")");
             if (getContenido() == "{")
             {
@@ -394,16 +393,17 @@ namespace Sintaxis_2
             if (getContenido() == "else")
             {
                 match("else");
-                if (ejecuta)
+                if (getContenido() == "if")
                 {
-                    if (getContenido() == "{")
-                    {
-                        BloqueInstrucciones(ejecuta);
-                    }
-                    else
-                    {
-                        Instruccion(ejecuta);
-                    }
+                    If(!evaluacion);
+                }
+                else if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(!evaluacion);
+                }
+                else
+                {
+                    Instruccion(!evaluacion);
                 }
             }
         }
@@ -415,7 +415,10 @@ namespace Sintaxis_2
             string Rebeca = getContenido();
             string Lucy = Rebeca.Replace("\"", "");
             string David = Lucy.Replace("\\n", "\n");
-            Console.Write(David.Replace("\\t", "\t"));
+            if (ejecuta)
+            {
+                Console.Write(David.Replace("\\t", "\t"));
+            }
             match(Tipos.Cadena);
             if (getContenido() == ",")
             {
