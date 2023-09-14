@@ -1,5 +1,5 @@
 Diego Galván Martínez
-13/09/2023 09:32:09 p. m.
+14/09/2023 11:39:21 a. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -69,3 +69,4 @@ scanf | Identificador
 & | Caracter
 c | Identificador
 ) | Caracter
+Error: de sintaxis, no puedes introducir datos de tipo string en la linea 12 columna 18

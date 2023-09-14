@@ -461,7 +461,7 @@ namespace Sintaxis_2
                 }
                 else
                 {
-                    throw new Error("de sintaxis, scanf no puede recibir datos de tipo string", log, linea, columna);
+                    throw new Error("de sintaxis, no puedes introducir datos de tipo string", log, linea, columna);
                 }
                 Modifica(variable, resultado);
             }
