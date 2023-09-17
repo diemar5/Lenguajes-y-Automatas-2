@@ -8,7 +8,7 @@ namespace Sintaxis_2
         {
             try
             {
-                using (Lenguaje L = new Lenguaje("suma.cpp"))
+                using (Lenguaje L = new Lenguaje("prueba.cpp"))
                 {
                     
                     L.Programa();

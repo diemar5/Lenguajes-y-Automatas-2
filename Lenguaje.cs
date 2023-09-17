@@ -206,6 +206,7 @@ namespace Sintaxis_2
         private void Asignacion(bool ejecuta)
         {
             float Sandevistan = 0;
+            float CyberEsqueleto = 0;
             if (!Existe(getContenido()))
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
@@ -242,7 +243,7 @@ namespace Sintaxis_2
                 {
                     match("-=");
                     Expresion();
-                    float CyberEsqueleto = stack.Pop();
+                    CyberEsqueleto = stack.Pop();
                     Sandevistan = GetValor(variable);
                     Sandevistan -= CyberEsqueleto;
                 }
@@ -262,7 +263,7 @@ namespace Sintaxis_2
                     match("/=");
                     Expresion();
                     Sandevistan = stack.Pop();
-                    Sandevistan = GetValor(variable) / Sandevistan;
+                    Sandevistan /= GetValor(variable);
                     //Console.WriteLine(Sandevistan);
                 }
                 else if (getContenido() == "%=")
@@ -270,7 +271,7 @@ namespace Sintaxis_2
                     match("%=");
                     Expresion();
                     Sandevistan = stack.Pop();
-                    Sandevistan = GetValor(variable) % Sandevistan;
+                    Sandevistan %= GetValor(variable);
                     //Console.WriteLine(Sandevistan);
                 }
                 Expresion();
@@ -281,7 +282,7 @@ namespace Sintaxis_2
                 stack.Push(Sandevistan);
                 Modifica(variable, Sandevistan);
             }
-            Modifica(variable, Sandevistan);
+            //Modifica(variable, Sandevistan);
             match(";");
         }
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
@@ -397,13 +398,16 @@ namespace Sintaxis_2
                 {
                     If(!evaluacion);
                 }
-                else if (getContenido() == "{")
+                if (ejecuta)
                 {
-                    BloqueInstrucciones(!evaluacion);
-                }
-                else
-                {
-                    Instruccion(!evaluacion);
+                    if (getContenido() == "{")
+                    {
+                        BloqueInstrucciones(!evaluacion);
+                    }
+                    else
+                    {
+                        Instruccion(!evaluacion);
+                    }
                 }
             }
         }
@@ -496,7 +500,7 @@ namespace Sintaxis_2
                 float R1 = stack.Pop();
                 if (operador == "+")
                     stack.Push(R1 + R2);
-                else if (operador == "-")
+                else
                     stack.Push(R1 - R2);
             }
         }
@@ -519,7 +523,7 @@ namespace Sintaxis_2
                 float R1 = stack.Pop();
                 if (operador == "*")
                     stack.Push(R1 * R2);
-                if (operador == "/")
+                else
                     stack.Push(R1 / R2);
                 if (operador == "%")
                     stack.Push(R1 % R2);

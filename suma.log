@@ -1,5 +1,5 @@
 Diego Galván Martínez
-14/09/2023 11:39:21 a. m.
+14/09/2023 12:15:40 p. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -69,4 +69,90 @@ scanf | Identificador
 & | Caracter
 c | Identificador
 ) | Caracter
-Error: de sintaxis, no puedes introducir datos de tipo string en la linea 12 columna 18
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+% | Operador_Factor
+2 | Numero
+ 2== | Operador_Relacional
+ %0 | Numero
+ 0) | Caracter
+{ | Inicio
+printf | Identificador
+( | Caracter
+"\nc es par\t\tITQ" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | Operador_Relacional
+10 | Numero
+ 10) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecutÃ³ el segundo If " | Cadena
+, | Caracter
+c | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+else | Condicion
+printf | Identificador
+( | Caracter
+"else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+a | Identificador
+a = = | Asignacion
+70 | Numero
+ 70; | Fin_de_Sentencia
+ = 70
+} | Fin
+else | Condicion
+{ | Inicio
+printf | Identificador
+( | Caracter
+"\nc es impar\tITQ\n" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | Operador_Relacional
+11 | Numero
+ 11) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecutÃ³ el segundo if del Else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+else | Condicion
+a | Identificador
+a = = | Asignacion
+0 | Numero
+ 0; | Fin_de_Sentencia
+ = 0
+} | Fin
+b | Identificador
+b = ++ | Incremento_Termino
+; | Fin_de_Sentencia
+ = 20
+c | Identificador
+c = -- | Incremento_Termino
+; | Fin_de_Sentencia
+ = 3
+d | Identificador
+d = = | Asignacion
+3 | Numero
+ 3; | Fin_de_Sentencia
+ = 3
+d | Identificador
+d = /= | Incremento_Factor
+( | Caracter
+15 | Numero
+ 15- | Operador_Termino
+b | Identificador
+) | Caracter
+ -; | Fin_de_Sentencia
+Error: de sintaxis, se espera un <(> en la linea 34 columna 14

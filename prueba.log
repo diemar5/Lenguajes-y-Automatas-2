@@ -1,5 +1,5 @@
 Diego Galván Martínez
-04/05/2023 12:38:29 a. m.
+17/09/2023 04:14:57 p. m.
 # | Caracter
 include | Identificador
 < | Operador_Relacional
@@ -14,20 +14,11 @@ math | Identificador
 . | Caracter
 h | Identificador
 > | Operador_Relacional
-int | Datos
-radio | Identificador
-, | Caracter
-pi | Identificador
-, | Caracter
-c | Identificador
-, | Caracter
-c | Identificador
-, | Caracter
-x26 | Identificador
-; | Fin_de_Sentencia
-char | Datos
-c | Identificador
-; | Fin_de_Sentencia
+# | Caracter
+include | Identificador
+< | Operador_Relacional
+iostream | Identificador
+> | Operador_Relacional
 float | Datos
 a | Identificador
 , | Caracter
@@ -36,21 +27,173 @@ b | Identificador
 c | Identificador
 , | Caracter
 d | Identificador
-, | Caracter
-e | Identificador
-, | Caracter
-pi | Identificador
 ; | Fin_de_Sentencia
 void | Identificador
 main | Identificador
 ( | Caracter
 ) | Caracter
 { | Inicio
-for | Ciclos
+a | Identificador
+a = = | Asignacion
 ( | Caracter
-i | Identificador
-= | Asignacion
+3 | Numero
+ 3+ | Operador_Termino
+5 | Numero
+ 5) | Caracter
+ +* | Operador_Factor
+8 | Numero
+ 8- | Operador_Termino
+ *( | Caracter
+10 | Numero
+ 10- | Operador_Termino
+4 | Numero
+ 4) | Caracter
+ -/ | Operador_Factor
+2 | Numero
+ 2; | Fin_de_Sentencia
+ / - = 61
+b | Identificador
+b = = | Asignacion
+19 | Numero
+ 19; | Fin_de_Sentencia
+ = 19
+printf | Identificador
+( | Caracter
+"Valor de c = " | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+scanf | Identificador
+( | Caracter
+"%f" | Cadena
+, | Caracter
+& | Caracter
+c | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+% | Operador_Factor
+2 | Numero
+ 2== | Operador_Relacional
+ %0 | Numero
+ 0) | Caracter
+{ | Inicio
+printf | Identificador
+( | Caracter
+"\nc es par\t\tITQ" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | Operador_Relacional
+10 | Numero
+ 10) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecutÃ³ el segundo If " | Cadena
+, | Caracter
+c | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+else | Condicion
+printf | Identificador
+( | Caracter
+"else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+a | Identificador
+a = = | Asignacion
+70 | Numero
+ 70; | Fin_de_Sentencia
+ = 70
+} | Fin
+else | Condicion
+{ | Inicio
+printf | Identificador
+( | Caracter
+"\nc es impar\tITQ\n" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | Operador_Relacional
+11 | Numero
+ 11) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecutÃ³ el segundo if del Else" | Cadena
+) | Caracter
+; | Fin_de_Sentencia
+else | Condicion
+a | Identificador
+a = = | Asignacion
 0 | Numero
+ 0; | Fin_de_Sentencia
+ = 0
+} | Fin
+b | Identificador
+b = ++ | Incremento_Termino
 ; | Fin_de_Sentencia
+ = 20
+c | Identificador
+c = -- | Incremento_Termino
 ; | Fin_de_Sentencia
-Error: Sintaxis, se espera un <(> en la linea 11 columna 16
+ = 10
+d | Identificador
+d = = | Asignacion
+3 | Numero
+ 3; | Fin_de_Sentencia
+ = 3
+c | Identificador
+c = += | Incremento_Termino
+( | Caracter
+15 | Numero
+ 15- | Operador_Termino
+b | Identificador
+) | Caracter
+ -; | Fin_de_Sentencia
+ = 5
+b | Identificador
+b = -= | Incremento_Termino
+9 | Numero
+ 9; | Fin_de_Sentencia
+ = 11
+printf | Identificador
+( | Caracter
+"\nEl valor de a = " | Cadena
+, | Caracter
+a | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"\nEl valor de b = " | Cadena
+, | Caracter
+b | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"\nEl valor de d = " | Cadena
+, | Caracter
+d | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+printf | Identificador
+( | Caracter
+"\nEl valor de c = " | Cadena
+, | Caracter
+c | Identificador
+) | Caracter
+; | Fin_de_Sentencia
+-----------------
+V a r i a b l e s
+-----------------
+a Float = 61
+b Float = 11
+c Float = 5
+d Float = 3
+-----------------

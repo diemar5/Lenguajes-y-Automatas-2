@@ -31,6 +31,7 @@ void main() // Funcion principal
     b++;
     c--;
     d = 3;
+    d/=(15-b);
     c+=(15-b); //c = 4 + (15-20); c = 4 + (-5); c = -1
     b-=9;
     printf("\nEl valor de a = ",a);
