@@ -18,8 +18,8 @@ using System.Threading.Tasks;
 */
 /*
     Unidad 2
-    Requerimiento 1: Implemenar la ejecución del while
-    Requerimiento 2: Implemenar la ejecución del do-while
+    Requerimiento 1: Implemenar la ejecución del while ✓
+    Requerimiento 2: Implemenar la ejecución del do-while 
     Requerimiento 3: Implemenar la ejecución del for ✓
     Requerimiento 4: Marcar errores semánticos
     Requerimiento 5: Casteos
@@ -341,17 +341,34 @@ namespace Sintaxis_2
         {
             match("while");
             match("(");
-            Condicion();
-            match(")");
-            if (getContenido() == "{")
+            int inicia = caracter;
+            int lineaInicio = linea;
+            string variable = getContenido();
+            do
             {
-                BloqueInstrucciones(ejecuta);
+                ejecuta = Condicion() && ejecuta;
+                match(")");
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(ejecuta);
+                }
+                else
+                {
+                    Instruccion(ejecuta);
+                }
+                if (ejecuta)
+                {
+                    archivo.DiscardBufferedData();
+                    //CREAR UN MÉTODO QUE DETERMINE CUÁL CICLO ESTÁ ANTES O DESPUÉS
+                    caracter = inicia - variable.Length - 1;
+                    //NOTA: SI EL CICLO WHILE ESTÁ ANTES DEL FOR, FUNCIONA SÓLO SI SE LE RESTA 1,
+                    //SI EL FOR ESTÁ ANTES DEL WHILE, FUNCIONA SÓLO RESTÁNDOLE variable.Length
+                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    nextToken();
+                    linea = lineaInicio;
+                }
             }
-            else
-            {
-                Instruccion(ejecuta);
-            }
-
+            while (ejecuta);
         }
         //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         private void Do(bool ejecuta)
@@ -380,7 +397,7 @@ namespace Sintaxis_2
 
             int inicia = caracter;
             int lineaInicio = linea;
-            float res = 0;
+            float res;
             string variable = getContenido();
 
             log.WriteLine("For: " + variable);
@@ -423,7 +440,7 @@ namespace Sintaxis_2
             match(Tipos.Identificador);
             if (getContenido() == "++")
             {
-                match("++");      
+                match("++");
                 resultado = stack.Pop() + 1;
             }
             else
@@ -470,14 +487,14 @@ namespace Sintaxis_2
             if (getContenido() == "else")
             {
                 match("else");
-                    if (getContenido() == "{")
-                    {
-                        BloqueInstrucciones(!evaluacion && ejecuta);
-                    }
-                    else
-                    {
-                        Instruccion(!evaluacion && ejecuta);
-                    }
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(!evaluacion && ejecuta);
+                }
+                else
+                {
+                    Instruccion(!evaluacion && ejecuta);
+                }
             }
         }
         //Printf -> printf(cadena(,Identificador)?);
