@@ -20,7 +20,7 @@ using System.Threading.Tasks;
     Unidad 2
     Requerimiento 1: Implemenar la ejecución del while
     Requerimiento 2: Implemenar la ejecución del do-while
-    Requerimiento 3: Implemenar la ejecución del for
+    Requerimiento 3: Implemenar la ejecución del for ✓
     Requerimiento 4: Marcar errores semánticos
     Requerimiento 5: Casteos
 */
@@ -316,14 +316,14 @@ namespace Sintaxis_2
                 Variable.TiposDatos tipoDatoVariable = getTipo(variable);
                 Variable.TiposDatos tipoDatoResultado = getTipo(Sandevistan);
 
-                Console.WriteLine(variable + " = " + tipoDatoVariable);
-                Console.WriteLine(Sandevistan + " = " + tipoDatoResultado);
-                Console.WriteLine("expresion = " + tipoDatoExpresion);
+                //Console.WriteLine(variable + " = " + tipoDatoVariable);
+                //Console.WriteLine(Sandevistan + " = " + tipoDatoResultado);
+                //Console.WriteLine("expresion = " + tipoDatoExpresion);
 
                 //COMPARA EL RESULTATO Y LA EXPRESION
-                Expresion();
-                float resultado = stack.Pop();
-                Variable.TiposDatos tipoDatoMayor = getTipo(resultado);
+                //Expresion();
+                //float resultado = stack.Pop();
+                //Variable.TiposDatos tipoDatoMayor = getTipo(resultado);
 
                 if (tipoDatoVariable >= tipoDatoResultado)
                 {
@@ -341,17 +341,17 @@ namespace Sintaxis_2
         {
             match("while");
             match("(");
-            bool evaluacion = Condicion() && ejecuta;
+            Condicion();
             match(")");
-                if (getContenido() == "{")
-                {
-                    BloqueInstrucciones(evaluacion);
-                }
-                else
-                {
-                    Instruccion(evaluacion);
-                }
-            
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones(ejecuta);
+            }
+            else
+            {
+                Instruccion(ejecuta);
+            }
+
         }
         //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         private void Do(bool ejecuta)
@@ -378,24 +378,43 @@ namespace Sintaxis_2
             match("(");
             Asignacion(ejecuta);
 
-            int inicio = caracter;
-            
-            Condicion();
-            match(";");
-            Incremento(ejecuta);
-            match(")");
-            if (getContenido() == "{")
+            int inicia = caracter;
+            int lineaInicio = linea;
+            float res = 0;
+            string variable = getContenido();
+
+            log.WriteLine("For: " + variable);
+
+            do
             {
-                BloqueInstrucciones(ejecuta);
+                ejecuta = Condicion() && ejecuta;
+                match(";");
+                res = Incremento(ejecuta);
+                match(")");
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(ejecuta);
+                }
+                else
+                {
+                    Instruccion(ejecuta);
+                }
+                if (ejecuta)
+                {
+                    Modifica(variable, res);
+                    archivo.DiscardBufferedData();
+                    caracter = inicia - variable.Length - 1;
+                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    nextToken();
+                    linea = lineaInicio;
+                }
             }
-            else
-            {
-                Instruccion(ejecuta);
-            }
+            while (ejecuta);
         }
         //Incremento -> Identificador ++ | --
-        private void Incremento(bool ejecuta)
+        private float Incremento(bool ejecuta)
         {
+            float resultado;
             if (!Existe(getContenido()))
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
@@ -404,12 +423,15 @@ namespace Sintaxis_2
             match(Tipos.Identificador);
             if (getContenido() == "++")
             {
-                match("++");
+                match("++");      
+                resultado = stack.Pop() + 1;
             }
             else
             {
                 match("--");
+                resultado = stack.Pop() - 1;
             }
+            return resultado;
         }
         //Condicion -> Expresion OperadorRelacional Expresion
         private bool Condicion()
@@ -435,30 +457,27 @@ namespace Sintaxis_2
         {
             match("if");
             match("(");
-            bool evaluacion = Condicion() && ejecuta;
+            bool evaluacion = Condicion();
             match(")");
             if (getContenido() == "{")
             {
-                BloqueInstrucciones(evaluacion);
+                BloqueInstrucciones(evaluacion && ejecuta);
             }
             else
             {
-                Instruccion(evaluacion);
+                Instruccion(evaluacion && ejecuta);
             }
             if (getContenido() == "else")
             {
                 match("else");
-                if (ejecuta)
-                {
                     if (getContenido() == "{")
                     {
-                        BloqueInstrucciones(!evaluacion);
+                        BloqueInstrucciones(!evaluacion && ejecuta);
                     }
                     else
                     {
-                        Instruccion(!evaluacion);
+                        Instruccion(!evaluacion && ejecuta);
                     }
-                }
             }
         }
         //Printf -> printf(cadena(,Identificador)?);
@@ -572,7 +591,7 @@ namespace Sintaxis_2
                     stack.Push(R1 * R2);
                 else if (operador == "/")
                     stack.Push(R1 / R2);
-                if (operador == "%")
+                else
                     stack.Push(R1 % R2);
             }
         }
@@ -596,11 +615,11 @@ namespace Sintaxis_2
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
                 stack.Push(getValor(getContenido()));
+                match(Tipos.Identificador);
                 if (tipoDatoExpresion < getTipo(getContenido()))
                 {
                     tipoDatoExpresion = getTipo(getContenido());
                 }
-                match(Tipos.Identificador);
             }
             else
             {
@@ -629,7 +648,7 @@ namespace Sintaxis_2
                 if (huboCast)
                 {
                     tipoDatoExpresion = tipoDatoCast;
-                    float resultado = stack.Pop();
+                    //float resultado = stack.Pop();
                     stack.Push(Castea(stack.Pop(), tipoDatoCast));
                 }
             }
