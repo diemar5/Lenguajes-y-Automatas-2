@@ -2,21 +2,20 @@
 #include <math.h>
 #include <iostream>
 
-char a;
 int i;
-float c;
+
 
 void main() // Funcion principal
 {
-    for (i=0; i<10; i++)
-    {
-        printf("El valor de i en el for es: ", i);
-        printf("\n");
-    }
-    while (i<20)
-    {
-        printf("El valor de i en el while es: ", i);
-        printf("\n");
-        i++;
-    }
+    for(i=0; i<5; i++)
+   {
+    printf("El valor del bucle for es: ",i);
+    printf("\n");
+   }
+   do
+   {
+    printf("El valor de do-while es: ",i);
+    printf("\n");
+    i=i+1;
+   } while (i<=9);
 }
