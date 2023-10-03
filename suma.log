@@ -1,13 +1,4 @@
 Diego Galván Martínez
-01/10/2023 06:28:20 p. m.
-i =  0 = 0
- 5 5 5 5 5 5i =  1 + = 6
- 9i =  1 + = 7
- 9i =  1 + = 8
- 9i =  1 + = 9
- 9i =  1 + = 10
- 9-----------------
-V a r i a b l e s
------------------
-i Int = 10
------------------
+03/10/2023 02:29:38 p. m.
+i =  1.5 1.5 + = 3
+Error: de semántica, no se puede asignar un <Char> a un <Float> en la linea 9 columna 17

@@ -244,7 +244,7 @@ namespace Sintaxis_2
         //Asignacion -> identificador = Expresion;
         private void Asignacion(bool ejecuta)
         {
-            float Sandevistan = 0;
+            float resultado = 0;
             tipoDatoExpresion = Variable.TiposDatos.Char;
             if (!Existe(getContenido()))
             {
@@ -257,82 +257,86 @@ namespace Sintaxis_2
             {
                 match("=");
                 Expresion();
-                Sandevistan = stack.Pop();
+                resultado = stack.Pop();
             }
             else if (getClasificacion() == Tipos.Incremento_Termino)
             {
                 if (getContenido() == "++")
                 {
                     match("++");
-                    Sandevistan = getValor(variable) + 1;
+                    resultado = getValor(variable) + 1;
                 }
                 else
                 {
                     match("--");
-                    Sandevistan = getValor(variable) - 1;
+                    resultado = getValor(variable) - 1;
                 }
             }
             else if (getClasificacion() == Tipos.Incremento_Factor)
             {
-                Sandevistan = getValor(variable);
+                resultado = getValor(variable);
                 if (getContenido() == "+=")
                 {
                     match("+=");
                     Expresion();
-                    Sandevistan += stack.Pop();
+                    resultado += stack.Pop();
                 }
                 else if (getContenido() == "-=")
                 {
                     match("-=");
                     Expresion();
-                    Sandevistan -= stack.Pop();
+                    resultado -= stack.Pop();
                 }
 
                 else if (getContenido() == "*=")
                 {
                     match("*=");
                     Expresion();
-                    Sandevistan *= stack.Pop();
+                    resultado *= stack.Pop();
                 }
                 else if (getContenido() == "/=")
                 {
                     match("/=");
                     Expresion();
-                    Sandevistan /= stack.Pop();
+                    resultado /= stack.Pop();
                 }
                 else if (getContenido() == "%=")
                 {
                     match("%=");
                     Expresion();
-                    Sandevistan %= stack.Pop();
+                    resultado %= stack.Pop();
                 }
             }
-            log.WriteLine(" = " + Sandevistan);
+            log.WriteLine(" = " + resultado);
             //Saber el tipo de dato de la variable
             //Saber si el resultado se puede asignar a la variable según su tipo
 
             if (ejecuta)
             {
                 Variable.TiposDatos tipoDatoVariable = getTipo(variable);
-                Variable.TiposDatos tipoDatoResultado = getTipo(Sandevistan);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
 
                 //Console.WriteLine(variable + " = " + tipoDatoVariable);
-                //Console.WriteLine(Sandevistan + " = " + tipoDatoResultado);
+                //Console.WriteLine(resultado + " = " + tipoDatoResultado);
                 //Console.WriteLine("expresion = " + tipoDatoExpresion);
 
-                //COMPARA EL RESULTATO Y LA EXPRESION
-                //Expresion();
-                //float resultado = stack.Pop();
-                //Variable.TiposDatos tipoDatoMayor = getTipo(resultado);
-                //Console.WriteLine(resultado);
-                //Console.WriteLine(tipoDatoMayor);
-                if (tipoDatoVariable >= tipoDatoResultado)
+                Variable.TiposDatos tiposDatoMayor = tipoDatoVariable;
+                if (tipoDatoResultado > tiposDatoMayor)
                 {
-                    Modifica(variable, Sandevistan);
+                    tiposDatoMayor = tipoDatoResultado;
+                }
+                if(tipoDatoExpresion > tipoDatoVariable)
+                {
+                    tiposDatoMayor = tipoDatoExpresion;
+                }
+
+                if (tipoDatoVariable >= tiposDatoMayor)
+                {
+                    Modifica(variable, resultado);
                 }
                 else
                 {
-                    throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                    throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tiposDatoMayor + ">", log, linea, columna);
                 }
             }
             match(";");
@@ -361,7 +365,7 @@ namespace Sintaxis_2
                 {
                     archivo.DiscardBufferedData();
                     //CREAR UN MÉTODO QUE DETERMINE CUÁL CICLO ESTÁ ANTES O DESPUÉS
-                    caracter = inicia - variable.Length;
+                    caracter = inicia - variable.Length - 1;
                     //NOTA: SI EL CICLO WHILE ESTÁ ANTES DEL FOR, FUNCIONA SÓLO SI SE LE RESTA 1,
                     //SI EL FOR ESTÁ ANTES DEL WHILE, FUNCIONA SÓLO RESTÁNDOLE variable.Length
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
@@ -430,7 +434,16 @@ namespace Sintaxis_2
                 }
                 if (ejecuta)
                 {
-                    Modifica(variable, res);
+                    Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                    Variable.TiposDatos tipoDatoResultado = getTipo(res);
+                    if (tipoDatoVariable >= tipoDatoResultado)
+                    {
+                        Modifica(variable, res);
+                    }
+                    else
+                    {
+                        throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                    }
                     archivo.DiscardBufferedData();
                     caracter = inicia - variable.Length - 1;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
@@ -454,6 +467,7 @@ namespace Sintaxis_2
             {
                 match("++");
                 resultado = stack.Pop() + 1;
+
             }
             else
             {
@@ -461,6 +475,7 @@ namespace Sintaxis_2
                 resultado = stack.Pop() - 1;
             }
             return resultado;
+
         }
         //Condicion -> Expresion OperadorRelacional Expresion
         private bool Condicion()
@@ -480,6 +495,7 @@ namespace Sintaxis_2
                 case "<=": return R2 <= R1;
                 default: return R2 != R1;
             }
+
         }
         //If -> if (Condicion) BloqueInstrucciones | Instruccion (else BloqueInstrucciones | Instruccion)?
         private void If(bool ejecuta)
@@ -529,7 +545,10 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
-                Console.Write(getValor(getContenido()));
+                if (ejecuta)
+                {
+                    Console.Write(getValor(getContenido()));
+                }
                 match(Tipos.Identificador);
             }
             match(")");
@@ -680,10 +699,17 @@ namespace Sintaxis_2
                     //float resultado = stack.Pop();
                     stack.Push(Castea(stack.Pop(), tipoDatoCast));
                 }
+                else
+                {
+
+                }
             }
         }
         float Castea(float resultado, Variable.TiposDatos datos)
         {
+            if (resultado % 256 == 0)
+            {
+            }
             return 0;
         }
     }
