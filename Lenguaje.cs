@@ -308,11 +308,10 @@ namespace Sintaxis_2
                 }
             }
             log.WriteLine(" = " + resultado);
-            //Saber el tipo de dato de la variable
-            //Saber si el resultado se puede asignar a la variable según su tipo
 
             if (ejecuta)
             {
+
                 Variable.TiposDatos tipoDatoVariable = getTipo(variable);
                 Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
 
@@ -321,11 +320,12 @@ namespace Sintaxis_2
                 //Console.WriteLine("expresion = " + tipoDatoExpresion);
 
                 Variable.TiposDatos tiposDatoMayor = tipoDatoVariable;
+
                 if (tipoDatoResultado > tiposDatoMayor)
                 {
                     tiposDatoMayor = tipoDatoResultado;
                 }
-                if(tipoDatoExpresion > tipoDatoVariable)
+                if (tipoDatoExpresion > tipoDatoVariable)
                 {
                     tiposDatoMayor = tipoDatoExpresion;
                 }
@@ -364,10 +364,7 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     archivo.DiscardBufferedData();
-                    //CREAR UN MÉTODO QUE DETERMINE CUÁL CICLO ESTÁ ANTES O DESPUÉS
                     caracter = inicia - variable.Length - 1;
-                    //NOTA: SI EL CICLO WHILE ESTÁ ANTES DEL FOR, FUNCIONA SÓLO SI SE LE RESTA 1,
-                    //SI EL FOR ESTÁ ANTES DEL WHILE, FUNCIONA SÓLO RESTÁNDOLE variable.Length
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
                     linea = lineaInicio;
@@ -572,6 +569,17 @@ namespace Sintaxis_2
             {
                 string captura = "" + Console.ReadLine();
                 bool CyberEsqueleto = float.TryParse(captura, out float resultado);
+                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+
+                if (tipoDatoVariable >= tipoDatoResultado)
+                {
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
                 if (CyberEsqueleto == true)
                 {
                     stack.Push(float.Parse(captura));
@@ -579,7 +587,7 @@ namespace Sintaxis_2
                 }
                 else
                 {
-                    throw new Error("de sintaxis, no puedes introducir datos de tipo string", log, linea, columna);
+                    throw new Error("de sintaxis, no puedes introducir datos de tipo <String>", log, linea, columna);
                 }
                 Modifica(variable, resultado);
             }
@@ -691,26 +699,29 @@ namespace Sintaxis_2
                     match("(");
                 }
                 Expresion();
-                //Se puede meter el casteo en Expresion() (dentro del método)
                 match(")");
                 if (huboCast)
                 {
                     tipoDatoExpresion = tipoDatoCast;
-                    //float resultado = stack.Pop();
-                    stack.Push(Castea(stack.Pop(), tipoDatoCast));
-                }
-                else
-                {
-
+                    float resultado = stack.Pop();
+                    resultado = Castea(resultado, tipoDatoCast);
+                    stack.Push(resultado);
                 }
             }
         }
+        //Se puede meter el casteo en Expresion() (dentro del método)
         float Castea(float resultado, Variable.TiposDatos datos)
         {
-            if (resultado % 256 == 0)
+            resultado = (float)Math.Round(resultado);
+            if (datos == Variable.TiposDatos.Char)
             {
+                resultado %= 256;
             }
-            return 0;
+            else if (datos == Variable.TiposDatos.Int)
+            {
+                resultado %= 65536;
+            }
+            return resultado;
         }
     }
 }
