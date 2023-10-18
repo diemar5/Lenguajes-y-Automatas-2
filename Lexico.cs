@@ -61,6 +61,7 @@ namespace Sintaxis_2
         };
         protected StreamReader archivo;
         protected StreamWriter log;
+        protected StreamWriter asm;
         protected int linea;
         protected int columna;
         protected int caracter;
@@ -68,10 +69,14 @@ namespace Sintaxis_2
         {
             linea = columna = caracter = 1;
             log = new StreamWriter("prueba.log");
+            asm = new StreamWriter("prueba.asm");
+            log.AutoFlush = true;
+            asm.AutoFlush = true;
             log.WriteLine("Diego Galván Martínez");
             DateTime datetime = DateTime.Now;
             log.WriteLine(datetime);
-            log.AutoFlush = true;
+            asm.WriteLine("; Diego Galván Martínez");
+            asm.WriteLine(datetime);
             if (File.Exists("prueba.cpp"))
             {
                 archivo = new StreamReader("prueba.cpp");
@@ -85,10 +90,14 @@ namespace Sintaxis_2
         {
             linea = columna = caracter = 1;
             log = new StreamWriter(Path.GetFileNameWithoutExtension(nombre) + ".log");
+            asm = new StreamWriter(Path.GetFileNameWithoutExtension(nombre) + ".asm");
+            log.AutoFlush = true;
+            asm.AutoFlush = true;
             log.WriteLine("Diego Galván Martínez");
+            asm.WriteLine(";Diego Galván Martínez");
             DateTime datetime = DateTime.Now;
             log.WriteLine(datetime);
-            log.AutoFlush = true;
+            asm.WriteLine(";" + datetime);
             if (Path.GetExtension(nombre) != ".cpp")
             {
                 throw new Error("El archvio " + nombre + " no tiene extension CPP", log, linea, columna);
@@ -107,6 +116,7 @@ namespace Sintaxis_2
         {
             archivo.Close();
             log.Close();
+            asm.Close();
         }
         private int Columna(char t)
         {
