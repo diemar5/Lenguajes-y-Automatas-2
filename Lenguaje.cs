@@ -32,7 +32,7 @@ using System.Threading.Tasks;
     Requerimiento 4: Programar else
     Requerimiento 5: Programar do para que genere una sola vez el codigo
     Requerimiento 6: Programar while para que genere una sola vez el codigo
-    Requerimiento 7: Programar el for para que genere una sola vez el codigo
+    Requerimiento 7: Programar el for para que genere una sola vez el codigo ✓
     Requerimiento 8: Programar el CAST
 */
 
@@ -238,7 +238,7 @@ namespace Sintaxis_2
         {
             if (getContenido() == "printf")
             {
-                Printf(ejecuta);
+                Printf(ejecuta, primeravez);
             }
             else if (getContenido() == "scanf")
             {
@@ -608,16 +608,31 @@ namespace Sintaxis_2
             }
         }
         //Printf -> printf(cadena(,Identificador)?);
-        private void Printf(bool ejecuta)
+        private void Printf(bool ejecuta, bool primeravez)
         {
             match("printf");
             match("(");
             if (ejecuta)
             {
                 string Rebeca = getContenido();
-                string Lucy = Rebeca.Replace("\"", "");
-                string David = Lucy.Replace("\\n", "\n");
-                Console.Write(David.Replace("\\t", "\t"));
+                string David = "\\n";
+                string Lucy;
+                if (primeravez)
+                {
+                    if (Rebeca.Contains(David))
+                    {
+                        Lucy = Rebeca.Replace("\"", "").Replace("\\n", "").Replace("\\t", "");
+                        asm.WriteLine("printn '" + Lucy + "'");
+                    }
+                    else
+                    {
+                        Lucy = Rebeca.Replace("\"", "").Replace("\\n", "").Replace("\\t", "");
+                        asm.WriteLine("print '" + Lucy + "'");
+                    }
+
+                }
+                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
+                Console.Write(Lucy);
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")
