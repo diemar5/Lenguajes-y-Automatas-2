@@ -11,11 +11,13 @@ void main() // Funcion principal
     // k = ((char)(1.5));
 
     // k = (3+5)*8-(10-4)/2; //61
-   for (i=0; i<10; i++)
+    printf("\nHola, esto es\n");
+    //scanf("&i",&altura);
+   /*for (i=0; i<10; i++)
     {
         printf("\nHola");
         k = i;
-    }
+    }/*
     /*printf("\nAltura: ");
     scanf("&i",&altura);
 

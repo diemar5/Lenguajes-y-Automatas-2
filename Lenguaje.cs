@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 /*
     Unidad 3
     Requerimiento 1: Programar scanf 
-    Requerimiento 2: Programar printf
+    Requerimiento 2: Programar printf ✓
     Requerimiento 3: Programar ++,--,+=,-=,*=,/=,%=
     Requerimiento 4: Programar else
     Requerimiento 5: Programar do para que genere una sola vez el codigo
@@ -242,7 +242,7 @@ namespace Sintaxis_2
             }
             else if (getContenido() == "scanf")
             {
-                Scanf(ejecuta);
+                Scanf(ejecuta, primeravez);
             }
             else if (getContenido() == "if")
             {
@@ -615,21 +615,16 @@ namespace Sintaxis_2
             if (ejecuta)
             {
                 string Rebeca = getContenido();
-                string David = "\\n";
                 string Lucy;
+                string David = "\"\\n";
                 if (primeravez)
                 {
-                    if (Rebeca.Contains(David))
+                    if (Rebeca.StartsWith(David))
                     {
-                        Lucy = Rebeca.Replace("\"", "").Replace("\\n", "").Replace("\\t", "");
-                        asm.WriteLine("printn '" + Lucy + "'");
+                        asm.WriteLine("printn ' '");
                     }
-                    else
-                    {
-                        Lucy = Rebeca.Replace("\"", "").Replace("\\n", "").Replace("\\t", "");
-                        asm.WriteLine("print '" + Lucy + "'");
-                    }
-
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "");
+                    asm.WriteLine("print '" + Lucy + "'");
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
                 Console.Write(Lucy);
@@ -652,7 +647,7 @@ namespace Sintaxis_2
             match(";");
         }
         //Scanf -> scanf(cadena,&Identificador);
-        private void Scanf(bool ejecuta)
+        private void Scanf(bool ejecuta, bool primeravez)
         {
             match("scanf");
             match("(");
@@ -679,6 +674,10 @@ namespace Sintaxis_2
                 else
                 {
                     throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
+                if (primeravez)
+                {
+                    asm.WriteLine("call scan_num");
                 }
                 if (CyberEsqueleto == true)
                 {
