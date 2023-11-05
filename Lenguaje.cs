@@ -26,12 +26,12 @@ using System.Threading.Tasks;
 */
 /*
     Unidad 3
-    Requerimiento 1: Programar scanf 
+    Requerimiento 1: Programar scanf ✓
     Requerimiento 2: Programar printf ✓
-    Requerimiento 3: Programar ++,--,+=,-=,*=,/=,%=
+    Requerimiento 3: Programar ++,--,+=,-=,*=,/=,%= ✓
     Requerimiento 4: Programar else
-    Requerimiento 5: Programar do para que genere una sola vez el codigo
-    Requerimiento 6: Programar while para que genere una sola vez el codigo
+    Requerimiento 5: Programar do para que genere una sola vez el codigo ✓
+    Requerimiento 6: Programar while para que genere una sola vez el codigo ✓
     Requerimiento 7: Programar el for para que genere una sola vez el codigo ✓
     Requerimiento 8: Programar el CAST
 */
@@ -42,21 +42,21 @@ namespace Sintaxis_2
     {
         List<Variable> lista;
         Stack<float> stack;
-        int contIf, contFor;
+        int contIf, contFor, contWhile, contDo;
         Variable.TiposDatos tipoDatoExpresion;
         public Lenguaje()
         {
             lista = new List<Variable>();
             stack = new Stack<float>();
             tipoDatoExpresion = Variable.TiposDatos.Char;
-            contIf = contFor = 1;
+            contIf = contFor = contWhile = contDo = 1;
         }
         public Lenguaje(string nombre) : base(nombre)
         {
             lista = new List<Variable>();
             stack = new Stack<float>();
             tipoDatoExpresion = Variable.TiposDatos.Char;
-            contIf = contFor = 1;
+            contIf = contFor = contWhile = contDo = 1;
         }
 
         //Programa  -> Librerias? Variables? Main
@@ -294,13 +294,19 @@ namespace Sintaxis_2
                 if (getContenido() == "++")
                 {
                     match("++");
-                    //INC
+                    if (primeravez)
+                    {
+                        asm.WriteLine("INC " + variable);//INC
+                    }
                     resultado = getValor(variable) + 1;
                 }
                 else
                 {
                     match("--");
-                    //DEC
+                    if (primeravez)
+                    {
+                        asm.WriteLine("DEC " + variable);//DEC
+                    }
                     resultado = getValor(variable) - 1;
                 }
             }
@@ -312,14 +318,24 @@ namespace Sintaxis_2
                     match("+=");
                     Expresion(primeravez);
                     resultado += stack.Pop();
-                    asm.WriteLine("POP AX");
+                    if (primeravez)
+                    {
+                        asm.WriteLine("POP AX");
+                        asm.WriteLine("MOV BX," + variable);
+                        asm.WriteLine("ADD AX,BX");
+                    }
                 }
                 else if (getContenido() == "-=")
                 {
                     match("-=");
                     Expresion(primeravez);
                     resultado -= stack.Pop();
-                    asm.WriteLine("POP AX");
+                    if (primeravez)
+                    {
+                        asm.WriteLine("POP AX");
+                        asm.WriteLine("MOV BX," + variable);
+                        asm.WriteLine("SUB BX,AX");
+                    }
                 }
 
                 else if (getContenido() == "*=")
@@ -327,21 +343,37 @@ namespace Sintaxis_2
                     match("*=");
                     Expresion(primeravez);
                     resultado *= stack.Pop();
-                    asm.WriteLine("POP AX");
+                    if (primeravez)
+                    {
+                        asm.WriteLine("POP AX");
+                        asm.WriteLine("MOV BX," + variable);
+                        asm.WriteLine("MULL BX");
+                    }
                 }
                 else if (getContenido() == "/=")
                 {
                     match("/=");
                     Expresion(primeravez);
                     resultado /= stack.Pop();
-                    asm.WriteLine("POP AX");
+                    if (primeravez)
+                    {
+                        asm.WriteLine("POP AX");
+                        asm.WriteLine("MOV BX," + variable);
+                        asm.WriteLine("DIV BX");
+                    }
                 }
                 else if (getContenido() == "%=")
                 {
                     match("%=");
                     Expresion(primeravez);
                     resultado %= stack.Pop();
-                    asm.WriteLine("POP AX");
+                    if (primeravez)
+                    {
+                        asm.WriteLine("POP BX");
+                        asm.WriteLine("MOV AX," + variable);
+                        asm.WriteLine("DIV BX");
+                        asm.WriteLine("MUL BX");
+                    }
                 }
             }
             log.WriteLine(" = " + resultado);
@@ -375,13 +407,18 @@ namespace Sintaxis_2
         {
             int inicia = caracter;
             int lineaInicio = linea;
-
+            string etiquetaInicio = "InicioWhile" + contWhile;
+            string etiquetaFin = "FinWhile" + contWhile++;
             log.WriteLine("while: ");
+            if (primeravez)
+            {
+                asm.WriteLine(etiquetaInicio + ":");
+            }
             do
             {
                 match("while");
                 match("(");
-                ejecuta = Condicion("", true) && ejecuta;
+                ejecuta = Condicion(etiquetaFin, primeravez) && ejecuta;
                 match(")");
                 if (getContenido() == "{")
                 {
@@ -394,27 +431,42 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     archivo.DiscardBufferedData();
-                    caracter = inicia - 5;
+                    caracter = inicia - 6;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
                     linea = lineaInicio;
                 }
+                if (primeravez)
+                {
+                    asm.WriteLine("JMP " + etiquetaInicio);
+                }
+                primeravez = false;
             }
             while (ejecuta);
+            asm.WriteLine(etiquetaFin + ":");
         }
         //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         private void Do(bool ejecuta, bool primeravez)
         {
+            asm.WriteLine("; Do: " + contDo);
+
+            string etiquetaInicio = "InicioDo" + contDo;
+            string etiquetaFin = "FinDo" + contDo++;
+
             int inicia = caracter;
             int lineaInicio = linea;
 
             log.WriteLine("do: ");
+            if (primeravez)
+            {
+                asm.WriteLine(etiquetaInicio + ":");
+            }
             do
             {
                 match("do");
                 if (getContenido() == "{")
                 {
-                    BloqueInstrucciones(ejecuta, true);//Cambiar el true, porque no se ha programado
+                    BloqueInstrucciones(ejecuta, primeravez);//Cambiar el true, porque no se ha programado
                 }
                 else
                 {
@@ -422,16 +474,22 @@ namespace Sintaxis_2
                 }
                 match("while");
                 match("(");
-                ejecuta = Condicion("", true) && ejecuta;//Cambiar el true, porque no se ha programado
+                ejecuta = Condicion(etiquetaFin, primeravez) && ejecuta;//Cambiar el true, porque no se ha programado
                 if (ejecuta)
                 {
                     archivo.DiscardBufferedData();
-                    caracter = inicia - 2;
+                    caracter = inicia - 3;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
                     linea = lineaInicio;
                 }
+                if (primeravez)
+                {
+                    asm.WriteLine("JMP " + etiquetaInicio);
+                }
+                primeravez = false;
             } while (ejecuta);
+            asm.WriteLine(etiquetaFin + ":");
             match(")");
             match(";");
         }
@@ -448,7 +506,7 @@ namespace Sintaxis_2
 
             int inicia = caracter;
             int lineaInicio = linea;
-            float res;
+            float resultado = 0;
             string variable = getContenido();
             primeravez = true;
 
@@ -461,7 +519,7 @@ namespace Sintaxis_2
             {
                 ejecuta = Condicion(etiquetaFin, primeravez) && ejecuta;
                 match(";");
-                res = Incremento(ejecuta);
+                resultado = Incremento(ejecuta);
                 match(")");
                 if (getContenido() == "{")
                 {
@@ -471,14 +529,14 @@ namespace Sintaxis_2
                 {
                     Instruccion(ejecuta, primeravez);
                 }
-                if (getValor(variable) < res)
+                if (getValor(variable) < resultado)
                 {
                     if (primeravez)
                     {
                         asm.WriteLine("INC " + variable);
                     }
                 }
-                else if (getValor(variable) > res)
+                else if (getValor(variable) > resultado)
                 {
                     if (primeravez)
                     {
@@ -488,10 +546,10 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     Variable.TiposDatos tipoDatoVariable = getTipo(variable);
-                    Variable.TiposDatos tipoDatoResultado = getTipo(res);
+                    Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
                     if (tipoDatoVariable >= tipoDatoResultado)
                     {
-                        Modifica(variable, res);
+                        Modifica(variable, resultado);
                     }
                     else
                     {
@@ -551,27 +609,22 @@ namespace Sintaxis_2
             switch (operador)
             {
                 case "==":
-                    if (primeravez)
-                        asm.WriteLine("JNE " + etiqueta);
+                    if (primeravez) asm.WriteLine("JNE " + etiqueta);
                     return R2 == R1;
-                case "<":
-                    if (primeravez)
-                        asm.WriteLine("JAE " + etiqueta);
-                    return R2 < R1;
                 case ">":
-                    if (primeravez)
-                        asm.WriteLine("JBE " + etiqueta);
+                    if (primeravez) asm.WriteLine("JBE " + etiqueta);
                     return R2 > R1;
                 case ">=":
-                    if (primeravez)
-                        asm.WriteLine("JB " + etiqueta);
+                    if (primeravez) asm.WriteLine("JB " + etiqueta);
                     return R2 >= R1;
+                case "<":
+                    if (primeravez) asm.WriteLine("JAE " + etiqueta);
+                    return R2 < R1;
                 case "<=":
-                    asm.WriteLine("JA " + etiqueta);
+                    if (primeravez) asm.WriteLine("JA " + etiqueta);
                     return R2 <= R1;
                 default:
-                    if (primeravez)
-                        asm.WriteLine("JE " + etiqueta);
+                    if (primeravez) asm.WriteLine("JE " + etiqueta);
                     return R2 != R1;
             }
 
@@ -617,6 +670,7 @@ namespace Sintaxis_2
                 string Rebeca = getContenido();
                 string Lucy;
                 string David = "\"\\n";
+                string Z2 = "\\n\"";
                 if (primeravez)
                 {
                     if (Rebeca.StartsWith(David))
@@ -625,6 +679,10 @@ namespace Sintaxis_2
                     }
                     Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "");
                     asm.WriteLine("print '" + Lucy + "'");
+                    if (Rebeca.EndsWith(Z2))
+                    {
+                        asm.WriteLine("printn ' '");
+                    }
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
                 Console.Write(Lucy);
@@ -677,7 +735,9 @@ namespace Sintaxis_2
                 }
                 if (primeravez)
                 {
+                    asm.WriteLine("mov ax, 0");
                     asm.WriteLine("call scan_num");
+                    asm.WriteLine("mov " + variable + ",CX");
                 }
                 if (CyberEsqueleto == true)
                 {
@@ -730,7 +790,7 @@ namespace Sintaxis_2
                     if (primeravez)
                     {
                         asm.WriteLine("ADD AX, BX");
-                        asm.WriteLine("PUSH BX");
+                        asm.WriteLine("PUSH AX");
                     }
                 }
                 else
@@ -862,6 +922,7 @@ namespace Sintaxis_2
                     }
                     resultado = Castea(resultado, tipoDatoCast);
                     stack.Push(resultado);
+                    Console.WriteLine(resultado);
                 }
             }
         }
