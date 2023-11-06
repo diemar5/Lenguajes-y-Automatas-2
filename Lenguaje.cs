@@ -246,7 +246,7 @@ namespace Sintaxis_2
             }
             else if (getContenido() == "if")
             {
-                If(ejecuta);
+                If(ejecuta, primeravez);
             }
             else if (getContenido() == "while")
             {
@@ -400,6 +400,29 @@ namespace Sintaxis_2
                     throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
                 }
             }
+            if (!ejecuta && primeravez)
+            {
+
+                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+
+                //Console.WriteLine(variable + " = " + tipoDatoVariable);
+                //Console.WriteLine(resultado + " = " + tipoDatoResultado);
+                //Console.WriteLine("expresion = " + tipoDatoExpresion);
+
+                if (tipoDatoExpresion > tipoDatoResultado)
+                {
+                    tipoDatoResultado = tipoDatoExpresion;
+                }
+                if (tipoDatoVariable >= tipoDatoResultado)
+                {
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
+            }
             match(";");
         }
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
@@ -506,7 +529,7 @@ namespace Sintaxis_2
 
             int inicia = caracter;
             int lineaInicio = linea;
-            float resultado = 0;
+            float resultado;
             string variable = getContenido();
             primeravez = true;
 
@@ -630,35 +653,44 @@ namespace Sintaxis_2
 
         }
         //If -> if (Condicion) BloqueInstrucciones | Instruccion (else BloqueInstrucciones | Instruccion)?
-        private void If(bool ejecuta)
+        private void If(bool ejecuta, bool primeravez)
         {
+            string etiquetaFin = "FinIf" + contIf;
             match("if");
             match("(");
-            asm.WriteLine("; IF: " + contIf);
+            if (primeravez)
+            {
+                asm.WriteLine("; IF: " + contIf);
+            }
             string etiqueta = "Eif" + contIf++;
-            bool evaluacion = Condicion(etiqueta, true);
+            bool evaluacion = Condicion(etiqueta, primeravez);
             match(")");
             if (getContenido() == "{")
             {
-                BloqueInstrucciones(evaluacion && ejecuta, true);
+                BloqueInstrucciones(evaluacion && ejecuta, primeravez);
             }
             else
             {
-                Instruccion(evaluacion && ejecuta, true);
+                Instruccion(evaluacion && ejecuta, primeravez);
             }
-            asm.WriteLine(etiqueta + ":");
             if (getContenido() == "else")
             {
+                if (primeravez)
+                {
+                    asm.WriteLine("JMP " + etiquetaFin);
+                    asm.WriteLine(etiqueta + ":");
+                }
                 match("else");
                 if (getContenido() == "{")
                 {
-                    BloqueInstrucciones(!evaluacion && ejecuta, true);
+                    BloqueInstrucciones(!evaluacion && ejecuta, primeravez);
                 }
                 else
                 {
-                    Instruccion(!evaluacion && ejecuta, true);
+                    Instruccion(!evaluacion && ejecuta, primeravez);
                 }
             }
+            asm.WriteLine(etiquetaFin + ":");
         }
         //Printf -> printf(cadena(,Identificador)?);
         private void Printf(bool ejecuta, bool primeravez)
@@ -686,6 +718,28 @@ namespace Sintaxis_2
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
                 Console.Write(Lucy);
+            }
+            if (!ejecuta && primeravez)
+            {
+                string Rebeca = getContenido();
+                string Lucy;
+                string David = "\"\\n";
+                string Z2 = "\\n\"";
+                if (primeravez)
+                {
+                    if (Rebeca.StartsWith(David))
+                    {
+                        asm.WriteLine("printn ' '");
+                    }
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "");
+                    asm.WriteLine("print '" + Lucy + "'");
+                    if (Rebeca.EndsWith(Z2))
+                    {
+                        asm.WriteLine("printn ' '");
+                    }
+                }
+                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
+                //Console.Write(Lucy);
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")
@@ -719,6 +773,38 @@ namespace Sintaxis_2
             string variable = getContenido();
             match(Tipos.Identificador);
             if (ejecuta)
+            {
+                string captura = "" + Console.ReadLine();
+                bool CyberEsqueleto = float.TryParse(captura, out float resultado);
+                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+
+                if (tipoDatoVariable >= tipoDatoResultado)
+                {
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de semántica, no se puede asignar un <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
+                if (primeravez)
+                {
+                    asm.WriteLine("mov ax, 0");
+                    asm.WriteLine("call scan_num");
+                    asm.WriteLine("mov " + variable + ",CX");
+                }
+                if (CyberEsqueleto == true)
+                {
+                    stack.Push(float.Parse(captura));
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de sintaxis, no puedes introducir datos de tipo <String>", log, linea, columna);
+                }
+                Modifica(variable, resultado);
+            }
+            if (!ejecuta && primeravez)
             {
                 string captura = "" + Console.ReadLine();
                 bool CyberEsqueleto = float.TryParse(captura, out float resultado);
