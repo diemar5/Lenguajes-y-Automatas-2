@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
 /*
     Unidad 1
     Requerimiento 1: Mensajes del printf deben salir sin comillas
@@ -16,16 +15,14 @@ using System.Threading.Tasks;
                      Icremento(), Printf(), Factor() y usar getValor y Modificar ☻
                      Levantar una excepcion en scanf() cuando se capture un string ☻ ✓
     Requerimiento 4: Implemenar la ejecución del ELSE ☻ ✓
-*/
-/*
+    
     Unidad 2
     Requerimiento 1: Implemenar la ejecución del while ✓
     Requerimiento 2: Implemenar la ejecución del do-while ✓
     Requerimiento 3: Implemenar la ejecución del for ✓
     Requerimiento 4: Marcar errores semánticos ✓
     Requerimiento 5: Casteos ✓
-*/
-/*
+
     Unidad 3
     Requerimiento 1: Programar scanf ✓
     Requerimiento 2: Programar printf ✓

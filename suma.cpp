@@ -8,8 +8,6 @@ void main() // Funcion principal
 {
     printf("\nAltura: ");
     scanf("&i",&altura);
-    printf("\nAltura vale: ",altura);
-    /*scanf("&i",&altura);
 
     printf("\nfor:\n");
     for (i = 1; i <= altura; i++)
@@ -54,5 +52,5 @@ void main() // Funcion principal
         } while (j < 250+i);
         i++;
         printf("\n");
-    } while (i <= altura);*/
+    } while (i <= altura);
 }
