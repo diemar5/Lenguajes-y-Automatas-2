@@ -6,7 +6,11 @@ int altura,i,j,k;
 
 void main() // Funcion principal
 {
-    printf("\nAltura: ");
+    k = (char)(257);
+    printf("K vale",k);
+    // k = 1.5;
+    //k = (int)((char)(1.5));
+    /*printf("\nAltura: ");
     scanf("&i",&altura);
 
     printf("\nfor:\n");
@@ -52,5 +56,5 @@ void main() // Funcion principal
         } while (j < 250+i);
         i++;
         printf("\n");
-    } while (i <= altura);
+    } while (i <= altura);*/
 }

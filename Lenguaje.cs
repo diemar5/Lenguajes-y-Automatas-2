@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 /*
@@ -29,11 +30,11 @@ using System.Threading.Tasks;
     Requerimiento 1: Programar scanf ✓
     Requerimiento 2: Programar printf ✓
     Requerimiento 3: Programar ++,--,+=,-=,*=,/=,%= ✓
-    Requerimiento 4: Programar else
+    Requerimiento 4: Programar else ✓
     Requerimiento 5: Programar do para que genere una sola vez el codigo ✓
     Requerimiento 6: Programar while para que genere una sola vez el codigo ✓
     Requerimiento 7: Programar el for para que genere una sola vez el codigo ✓
-    Requerimiento 8: Programar el CAST
+    Requerimiento 8: Programar el CAST ✓
 */
 
 namespace Sintaxis_2
@@ -739,7 +740,6 @@ namespace Sintaxis_2
                     }
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
-                //Console.Write(Lucy);
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")
@@ -789,9 +789,9 @@ namespace Sintaxis_2
                 }
                 if (primeravez)
                 {
-                    asm.WriteLine("mov ax, 0");
+                    asm.WriteLine("MOV AX, 0");
                     asm.WriteLine("call scan_num");
-                    asm.WriteLine("mov " + variable + ",CX");
+                    asm.WriteLine("MOV " + variable + ",CX");
                 }
                 if (CyberEsqueleto == true)
                 {
@@ -821,9 +821,9 @@ namespace Sintaxis_2
                 }
                 if (primeravez)
                 {
-                    asm.WriteLine("mov ax, 0");
+                    asm.WriteLine("MOV AX, 0");
                     asm.WriteLine("call scan_num");
-                    asm.WriteLine("mov " + variable + ",CX");
+                    asm.WriteLine("MOV " + variable + ",CX");
                 }
                 if (CyberEsqueleto == true)
                 {
@@ -1019,6 +1019,8 @@ namespace Sintaxis_2
             if (datos == Variable.TiposDatos.Char)
             {
                 resultado %= 256;
+                asm.WriteLine("AND AX, 0xFF");
+                asm.WriteLine("PUSH AX");
             }
             else if (datos == Variable.TiposDatos.Int)
             {
