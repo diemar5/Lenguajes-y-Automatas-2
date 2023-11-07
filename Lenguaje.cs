@@ -719,6 +719,29 @@ namespace Sintaxis_2
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
                 Console.Write(Lucy);
+                match(Tipos.Cadena);
+                if (getContenido() == ",")
+                {
+                    match(",");
+                    if (!Existe(getContenido()))
+                    {
+                        throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
+                    }
+                    if (ejecuta)
+                    {
+                        Console.Write(getValor(getContenido()));
+                        asm.WriteLine("MOV AX, " +getValor(getContenido()));
+                        asm.WriteLine("call print_num");
+                    }
+                    else
+                    {
+                        asm.WriteLine("MOV AX, " + getValor(getContenido()));
+                        asm.WriteLine("call print_num");
+                    }
+                    match(Tipos.Identificador);
+                }
+                match(")");
+                match(";");
             }
             if (!ejecuta && primeravez)
             {
@@ -740,23 +763,31 @@ namespace Sintaxis_2
                     }
                 }
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
-            }
-            match(Tipos.Cadena);
-            if (getContenido() == ",")
-            {
-                match(",");
-                if (!Existe(getContenido()))
+                match(Tipos.Cadena);
+                if (getContenido() == ",")
                 {
-                    throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
+                    match(",");
+                    if (!Existe(getContenido()))
+                    {
+                        throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
+                    }
+                    if (ejecuta)
+                    {
+                        Console.Write(getValor(getContenido()));
+                        asm.WriteLine("MOV AX, " + getValor(getContenido()));
+                        asm.WriteLine("call print_num");
+                    }
+                    else
+                    {
+                        asm.WriteLine("MOV AX, " + getValor(getContenido()));
+                        asm.WriteLine("call print_num");
+                    }
+                    match(Tipos.Identificador);
                 }
-                if (ejecuta)
-                {
-                    Console.Write(getValor(getContenido()));
-                }
-                match(Tipos.Identificador);
+                match(")");
+                match(";");
             }
-            match(")");
-            match(";");
+
         }
         //Scanf -> scanf(cadena,&Identificador);
         private void Scanf(bool ejecuta, bool primeravez)

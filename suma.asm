@@ -1,16 +1,16 @@
 ;Diego Galván Martínez
-;07/11/2023 11:28:08 a. m.
+;07/11/2023 12:58:11 p. m.
 include emu8086.inc
 org 100h
-MOV AX, 256
-PUSH AX
-POP AX
-AND AX, 0xFF
-PUSH AX
-POP AX
-; Asignacion k
-MOV k, AX
-print 'K vale'
+printn ' '
+print 'Altura: '
+MOV AX, 0
+call scan_num
+MOV altura,CX
+printn ' '
+print 'Altura vale: '
+MOV AX, 5
+call print_num
 INT 20H
 RET
 define_scan_num
