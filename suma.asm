@@ -1,5 +1,5 @@
 ;Diego Galván Martínez
-;08/11/2023 01:30:54 p. m.
+;08/11/2023 01:39:12 p. m.
 include emu8086.inc
 org 100h
 MOV AX, 258
@@ -60,7 +60,7 @@ POP BX
 POP AX
 CMP AX, BX
 JA FinFor1
-print '    '
+print '        '
 ; For: 2
 MOV AX, 250
 PUSH AX
@@ -323,7 +323,7 @@ POP BX
 POP AX
 CMP AX, BX
 JA FinWhile1
-print '    '
+print '        '
 MOV AX, 250
 PUSH AX
 POP AX
@@ -388,7 +388,7 @@ POP AX
 MOV i, AX
 ; Do: 1
 InicioDo1:
-print '    '
+print '        '
 MOV AX, 250
 PUSH AX
 POP AX
