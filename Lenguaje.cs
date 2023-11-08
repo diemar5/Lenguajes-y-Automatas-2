@@ -296,7 +296,7 @@ namespace Sintaxis_2
                         asm.WriteLine("INC " + variable);
                     }
                     resultado = getValor(variable) + 1;
-                    Console.WriteLine(variable+resultado);
+                    //Console.WriteLine(variable+resultado);
                 }
                 else if (getContenido() == "--")
                 {
@@ -306,10 +306,10 @@ namespace Sintaxis_2
                         asm.WriteLine("DEC " + variable);
                     }
                     resultado = getValor(variable) - 1;
-                    Console.WriteLine(variable+resultado);
+                    //Console.WriteLine(variable+resultado);
                 }
                 else if (getContenido() == "+=")
-               {
+                {
                     match("+=");
                     Expresion(primeravez);
                     resultado = stack.Pop();
@@ -334,7 +334,7 @@ namespace Sintaxis_2
                         asm.WriteLine("POP AX");
                         asm.WriteLine("MOV BX," + variable);
                         asm.WriteLine("SUB BX, AX");
-                        asm.WriteLine("MOV" + variable + ", AX");
+                        asm.WriteLine("MOV " + variable + ", AX");
                     }
                     //Console.WriteLine(variable+resultado);
                 }
@@ -351,8 +351,8 @@ namespace Sintaxis_2
                     {
                         asm.WriteLine("POP AX");
                         asm.WriteLine("MOV BX, " + variable);
-                        asm.WriteLine("MULL BX");
-                        asm.WriteLine("MOV" + variable + ", AX");
+                        asm.WriteLine("MUL BX");
+                        asm.WriteLine("MOV " + variable + ", AX");
                     }
                     //Console.WriteLine(variable+resultado);
                 }
@@ -368,7 +368,7 @@ namespace Sintaxis_2
                         asm.WriteLine("MOV BX, AX");
                         asm.WriteLine("MOV AX, " + variable);
                         asm.WriteLine("DIV BX");
-                        asm.WriteLine("MOV" + variable + ", AX");
+                        asm.WriteLine("MOV " + variable + ", AX");
                     }
                     //Console.WriteLine(variable+resultado);
                 }
@@ -380,11 +380,11 @@ namespace Sintaxis_2
                     resultado %= getValor(variable);
                     if (primeravez)
                     {
-                        asm.WriteLine("POP BX");
+                        asm.WriteLine("POP AX");
                         asm.WriteLine("MOV BX, AX");
                         asm.WriteLine("MOV AX, " + variable);
                         asm.WriteLine("DIV BX");
-                        asm.WriteLine("MOV" + variable + ", AX");
+                        asm.WriteLine("MOV " + variable + ", AX");
                     }
                     //Console.WriteLine(variable+resultado);
                 }
@@ -461,8 +461,10 @@ namespace Sintaxis_2
         //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         private void Do(bool ejecuta, bool primeravez)
         {
-            asm.WriteLine("; Do: " + contDo);
-
+            if (primeravez)
+            {
+                asm.WriteLine("; Do: " + contDo);
+            }
             string etiquetaInicio = "InicioDo" + contDo;
             string etiquetaFin = "FinDo" + contDo++;
 
@@ -602,7 +604,6 @@ namespace Sintaxis_2
                 match("--");
                 return getValor(variable) - 1;
             }
-
         }
         //Condicion -> Expresion OperadorRelacional Expresion
         private bool Condicion(string etiqueta, bool primeravez)
@@ -699,7 +700,7 @@ namespace Sintaxis_2
                     {
                         asm.WriteLine("printn ' '");
                     }
-                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "");
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "\t");
                     asm.WriteLine("print '" + Lucy + "'");
                     if (Rebeca.EndsWith(Z2))
                     {
@@ -709,7 +710,7 @@ namespace Sintaxis_2
                 Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
                 Console.Write(Lucy);
             }
-            if (!ejecuta)
+            if (!ejecuta && primeravez)
             {
                 string Rebeca = getContenido();
                 string Lucy;
@@ -721,7 +722,7 @@ namespace Sintaxis_2
                     {
                         asm.WriteLine("printn ' '");
                     }
-                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "");
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "\t");
                     asm.WriteLine("print '" + Lucy + "'");
                     if (Rebeca.EndsWith(Z2))
                     {
@@ -917,7 +918,16 @@ namespace Sintaxis_2
                         asm.WriteLine("PUSH AX");
                     }
                 }
-                else if (operador == "/")
+                else if (operador == "%")
+                {
+                    stack.Push(R1 % R2);
+                    if (primeravez)
+                    {
+                        asm.WriteLine("DIV BX");
+                        asm.WriteLine("PUSH DX");
+                    }
+                }
+                else
                 {
                     stack.Push(R1 / R2);
                     if (primeravez)
@@ -925,13 +935,6 @@ namespace Sintaxis_2
                         asm.WriteLine("DIV BX");
                         asm.WriteLine("PUSH AX");
                     }
-                }
-                else
-                    stack.Push(R1 % R2);
-                if (primeravez)
-                {
-                    asm.WriteLine("DIV BX");
-                    asm.WriteLine("PUSH AX");
                 }
             }
         }
