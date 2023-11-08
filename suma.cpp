@@ -17,7 +17,7 @@ void main() // Funcion principal
     scanf("&i", &altura);
 
     printf("\nfor:\n");
-    for (i = 0; i <= altura; i++)
+    for (i = 1; i <= altura; i++)
     {
         printf("\t");
         for (j = 250; j < 250 + i; j++)

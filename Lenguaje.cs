@@ -681,7 +681,10 @@ namespace Sintaxis_2
                     Instruccion(!evaluacion && ejecuta, primeravez);
                 }
             }
-            asm.WriteLine(etiquetaFin + ":");
+            if (primeravez)
+            {
+                asm.WriteLine(etiquetaFin + ":");
+            }
         }
         //Printf -> printf(cadena(,Identificador)?);
         private void Printf(bool ejecuta, bool primeravez)
@@ -700,14 +703,14 @@ namespace Sintaxis_2
                     {
                         asm.WriteLine("printn ' '");
                     }
-                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "\t");
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "    ");
                     asm.WriteLine("print '" + Lucy + "'");
                     if (Rebeca.EndsWith(Z2))
                     {
                         asm.WriteLine("printn ' '");
                     }
                 }
-                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
+                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "    ");
                 Console.Write(Lucy);
             }
             if (!ejecuta && primeravez)
@@ -722,14 +725,14 @@ namespace Sintaxis_2
                     {
                         asm.WriteLine("printn ' '");
                     }
-                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "\t");
+                    Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\n", "").Replace("\\t", "    ");
                     asm.WriteLine("print '" + Lucy + "'");
                     if (Rebeca.EndsWith(Z2))
                     {
                         asm.WriteLine("printn ' '");
                     }
                 }
-                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "\t");
+                Lucy = Rebeca.Replace("\"", "").Replace("\\n", "\n").Replace("\\t", "    ");
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")

@@ -1,5 +1,5 @@
 ;Diego Galván Martínez
-;07/11/2023 11:46:45 p. m.
+;08/11/2023 01:30:54 p. m.
 include emu8086.inc
 org 100h
 MOV AX, 258
@@ -46,7 +46,7 @@ printn ' '
 print 'for:'
 printn ' '
 ; For: 1
-MOV AX, 0
+MOV AX, 1
 PUSH AX
 POP AX
 ; Asignacion i
@@ -60,7 +60,7 @@ POP BX
 POP AX
 CMP AX, BX
 JA FinFor1
-print '	'
+print '    '
 ; For: 2
 MOV AX, 250
 PUSH AX
@@ -126,7 +126,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinFor3
-; IF: 2
+; IF: 3
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -140,12 +140,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif2
+JNE Eif3
 print '-'
-JMP FinIf2
-Eif2:
+JMP FinIf3
+Eif3:
 print '+'
-FinIf2:
+FinIf3:
 INC j
 JMP InicioFor3
 FinFor3:
@@ -165,7 +165,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinFor4
-; IF: 4
+; IF: 6
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -179,12 +179,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif4
+JNE Eif6
 print '-'
-JMP FinIf4
-Eif4:
+JMP FinIf6
+Eif6:
 print '+'
-FinIf4:
+FinIf6:
 INC j
 JMP InicioFor4
 FinFor4:
@@ -204,7 +204,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinFor5
-; IF: 7
+; IF: 10
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -218,12 +218,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif7
+JNE Eif10
 print '-'
-JMP FinIf7
-Eif7:
+JMP FinIf10
+Eif10:
 print '+'
-FinIf7:
+FinIf10:
 INC j
 JMP InicioFor5
 FinFor5:
@@ -243,7 +243,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinFor6
-; IF: 11
+; IF: 15
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -257,12 +257,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif11
+JNE Eif15
 print '-'
-JMP FinIf11
-Eif11:
+JMP FinIf15
+Eif15:
 print '+'
-FinIf11:
+FinIf15:
 INC j
 JMP InicioFor6
 FinFor6:
@@ -282,7 +282,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinFor7
-; IF: 16
+; IF: 21
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -296,54 +296,15 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif16
+JNE Eif21
 print '-'
-JMP FinIf16
-Eif16:
+JMP FinIf21
+Eif21:
 print '+'
-FinIf16:
+FinIf21:
 INC j
 JMP InicioFor7
 FinFor7:
-; For: 8
-InicioFor8:
-MOV AX, j
-PUSH AX
-MOV AX, 250
-PUSH AX
-MOV AX, i
-PUSH AX
-POP BX
-POP AX
-ADD AX, BX
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor8
-; IF: 22
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV BX
-PUSH DX
-MOV AX, 0
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif22
-print '-'
-JMP FinIf22
-Eif22:
-print '+'
-FinIf22:
-INC j
-JMP InicioFor8
-FinFor8:
 FinFor1:
 printn ' '
 print 'while:'
@@ -362,7 +323,7 @@ POP BX
 POP AX
 CMP AX, BX
 JA FinWhile1
-print '	'
+print '    '
 MOV AX, 250
 PUSH AX
 POP AX
@@ -383,7 +344,7 @@ POP BX
 POP AX
 CMP AX, BX
 JAE FinWhile2
-; IF: 23
+; IF: 22
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -397,12 +358,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif23
+JNE Eif22
 print '-'
-JMP FinIf23
-Eif23:
+JMP FinIf22
+Eif22:
 print '+'
-FinIf23:
+FinIf22:
 INC j
 JMP InicioWhile2
 FinWhile2:
@@ -427,7 +388,7 @@ POP AX
 MOV i, AX
 ; Do: 1
 InicioDo1:
-print '	'
+print '    '
 MOV AX, 250
 PUSH AX
 POP AX
@@ -435,7 +396,7 @@ POP AX
 MOV j, AX
 ; Do: 2
 InicioDo2:
-; IF: 44
+; IF: 43
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -449,12 +410,12 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif44
+JNE Eif43
 print '-'
-JMP FinIf44
-Eif44:
+JMP FinIf43
+Eif43:
 print '+'
-FinIf44:
+FinIf43:
 INC j
 MOV AX, j
 PUSH AX
