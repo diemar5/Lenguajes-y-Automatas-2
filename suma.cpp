@@ -2,19 +2,28 @@
 #include <math.h>
 #include <iostream>
 
-char altura,i,j,k;
+int a;
+char altura, i, j, k;
 
 void main() // Funcion principal
 {
+    a = 258;
+    a = (char)(a); //Bien
+    a ++;
+    a --;
+    a += 8; //
+    a *= 10;
+    a /= 100;
+    /*printf("\nA vale: ", a);
     printf("\nAltura: ");
-    scanf("&i",&altura);
+    scanf("&i", &altura);
 
     printf("\nfor:\n");
     for (i = 1; i <= altura; i++)
     {
-        for (j = 250; j < 250+i; j++)
+        for (j = 250; j < 250 + i; j++)
         {
-            if (j%2==0)
+            if (j % 2 == 0)
                 printf("-");
             else
                 printf("+");
@@ -26,9 +35,9 @@ void main() // Funcion principal
     while (i <= altura)
     {
         j = 250;
-        while (j < 250+i)
+        while (j < 250 + i)
         {
-            if (j%2==0)
+            if (j % 2 == 0)
                 printf("-");
             else
                 printf("+");
@@ -44,13 +53,13 @@ void main() // Funcion principal
         j = 250;
         do
         {
-            if (j%2==0)
+            if (j % 2 == 0)
                 printf("-");
             else
                 printf("+");
             j++;
-        } while (j < 250+i);
+        } while (j < 250 + i);
         i++;
         printf("\n");
-    } while (i <= altura);
+    } while (i <= altura);*/
 }

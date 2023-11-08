@@ -1,22 +1,48 @@
 ;Diego Galván Martínez
-;07/11/2023 12:58:11 p. m.
+;07/11/2023 05:59:04 p. m.
 include emu8086.inc
 org 100h
-printn ' '
-print 'Altura: '
-MOV AX, 0
-call scan_num
-MOV altura,CX
-printn ' '
-print 'Altura vale: '
-MOV AX, 5
-call print_num
+MOV AX, 258
+PUSH AX
+POP AX
+; Asignacion a
+MOV a, AX
+MOV AX, a
+PUSH AX
+POP AX
+AND AX, 0xFF
+PUSH AX
+POP AX
+; Asignacion a
+MOV a, AX
+INC a
+DEC a
+MOV AX, 8
+PUSH AX
+POP AX
+MOV BX, a
+ADD AX, BX
+MOV a, AX
+MOV AX, 10
+PUSH AX
+POP AX
+MOV BX, a
+MULL BX
+MOVa, AX
+MOV AX, 100
+PUSH AX
+POP AX
+MOV BX, AX
+MOV AX, a
+DIV BX
+MOVa, AX
 INT 20H
 RET
 define_scan_num
 define_print_num
 define_print_num_uns
 ; V a r i a b l e s
+a dw 0h 
 altura dw 0h 
 i dw 0h 
 j dw 0h 
